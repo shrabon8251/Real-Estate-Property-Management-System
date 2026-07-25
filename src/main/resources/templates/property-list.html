@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Property List</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<h1>All Properties</h1>
+
+<br>
+
+<a th:href="@{/property/add}">
+    Add New Property
+</a>
+
+<br><br>
+
+
+<!-- Property List -->
+<div class="property-container">
+
+    <!-- Single Property Card -->
+    <div class="property-card"
+         th:each="property : ${properties}"
+         th:onclick="|window.location.href='@{/property/details/{id}(id=${property.id})}'|">
+        <p>
+            <strong>Property ID:</strong>
+            <span th:text="${property.id}"></span>
+        </p>
+        <!-- Property Image -->
+        <div class="property-image">
+
+            <!-- Image exists -->
+            <img th:if="${property.imagePath != null}"
+                 th:src="@{'/uploads/' + ${property.imagePath}}"
+                 alt="Property Image">
+
+            <!-- Image does not exist -->
+            <p th:if="${property.imagePath == null}">
+                No Image Available
+            </p>
+
+        </div>
+
+
+        <!-- Property Information -->
+        <div class="property-info">
+
+
+            <h2 th:text="${property.title}">
+                Property Title
+            </h2>
+
+            <p>
+                <strong>Property Type:</strong>
+                <span th:text="${property.propertyType}">
+                    Apartment
+                </span>
+            </p>
+
+            <p>
+                <strong>Location:</strong>
+                <span th:text="${property.location}">
+                    Dhaka
+                </span>
+            </p>
+
+            <p>
+                <strong>Price:</strong>
+                <span th:text="${property.price}">
+                    500000
+                </span>
+            </p>
+
+            <p>
+                <strong>Listing Type:</strong>
+                <span th:text="${property.listingType}">
+                    For Sale
+                </span>
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                <span th:text="${property.status}">
+                    Available
+                </span>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- No Property Found -->
+<div th:if="${#lists.isEmpty(properties)}">
+
+    <h2>No Properties Available</h2>
+
+    <p>
+        There are currently no properties in the system.
+    </p>
+
+    <a th:href="@{/property/add}">
+        Add Your First Property
+    </a>
+
+</div>
+
+
+</body>
+</html>
