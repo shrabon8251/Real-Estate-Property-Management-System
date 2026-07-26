@@ -54,7 +54,7 @@ public class PropertyController {
 
         System.out.println("Property saved successfully");
 
-        propertyService.saveProperty(property);
+
 
         return "redirect:/property/list";
 
@@ -63,11 +63,8 @@ public class PropertyController {
 
 
     @GetMapping("/list")
-    public String propertyList(Model model) {
-
-        model.addAttribute(
-                "properties",
-                propertyService.getAllProperties()
+    public String propertyList(Model model) {model.addAttribute("properties",
+            propertyService.getAllProperties()
         );
 
         return "property-list";
