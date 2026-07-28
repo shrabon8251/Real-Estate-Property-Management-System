@@ -4,8 +4,14 @@
 
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}"></head>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+</head>
 <body>
+
+
 <br><br>
 <form  method="post" th:action="@{/property/save}"
                     th:object="${property}"
@@ -87,14 +93,30 @@
 
 
     <label>Expected Date:</label>
-    <input type="date" th:field="*{expectedDate}">
+    <input type="text"
+           th:field="*{expectedDate}"
+           placeholder="Select Date"
+           class="date-picker">
+
     <span th:errors="*{expectedDate}" style="color: red"></span>
 
     <br><br>
 
 
     <label>Property Image:</label>
-    <input type="file" name="image">
+
+    <input type="file"
+           name="image"
+           id="imageInput"
+           accept="image/*">
+
+    <br><br>
+
+    <img id="imagePreview"
+         src="#"
+         alt="Image Preview"
+         width="200"
+         style="display: none;">
 
 
     <br><br>
@@ -112,5 +134,13 @@
 
 
 </form>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+    flatpickr(".date-picker", {
+        dateFormat: "Y-m-d"
+    });
+</script>
 </body>
 </html>

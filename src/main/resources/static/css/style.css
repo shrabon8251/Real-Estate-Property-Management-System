@@ -340,3 +340,41 @@ form a:hover {
     object-fit: cover;
     display: block;
 }
+
+.filter-bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    margin: 20px 0;
+}
+
+.filter-bar input,
+.filter-bar select {
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.filter-bar input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-bar input[type="number"] {
+    width: 130px;
+}
+
+.filter-bar select {
+    width: 150px;
+}
+
+.filter-bar button {
+    width: 80px;
+    padding: 8px;
+    font-size: 14px;
+}

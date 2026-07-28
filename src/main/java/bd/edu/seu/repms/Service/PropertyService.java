@@ -32,18 +32,77 @@ public class PropertyService {
          return propertyRepository.findById(id).orElse(null);
      }
 
-
-//     public Property updatePropert(Property property){
-//         return propertyRepository.save(property);
-//
-//     }
-    public Property updateProperty(Property property) {
-        return propertyRepository.save(property);
-    }
+     public Property updateProperty( Property property) {return propertyRepository.save(property);}
      public void deleteProperty(Long id){
          propertyRepository.deleteById(id);
      }
 
+
+
+    public List<Property> searchAndFilterProperties(
+            String keyword,
+            String propertyType,
+            String listingType,
+            String status,
+            Double minPrice,
+            Double maxPrice) {
+
+        // Database থেকে সব property load
+        List<Property> properties = propertyRepository.findAll();
+
+        // Search এবং Filter
+        return properties.stream()
+                .filter(property ->
+
+                        // Search by Title or Location
+                        (keyword == null ||
+                                keyword.isBlank() ||
+                                property.getTitle()
+                                        .toLowerCase()
+                                        .contains(keyword.toLowerCase()) ||
+                                property.getLocation()
+                                        .toLowerCase()
+                                        .contains(keyword.toLowerCase()))
+
+                                &&
+
+                                // Property Type Filter
+                                (propertyType == null ||
+                                        propertyType.isBlank() ||
+                                        property.getPropertyType()
+                                                .equalsIgnoreCase(propertyType))
+
+                                &&
+
+                                // Listing Type Filter
+                                (listingType == null ||
+                                        listingType.isBlank() ||
+                                        property.getListingType()
+                                                .equalsIgnoreCase(listingType))
+
+                                &&
+
+                                // Status Filter
+                                (status == null ||
+                                        status.isBlank() ||
+                                        property.getStatus()
+                                                .equalsIgnoreCase(status))
+
+                                &&
+
+                                // Minimum Price Filter
+                                (minPrice == null ||
+                                        property.getPrice() >= minPrice)
+
+                                &&
+
+                                // Maximum Price Filter
+                                (maxPrice == null ||
+                                        property.getPrice() <= maxPrice)
+
+                )
+                .toList();
+    }
 
     public String saveImage(MultipartFile image) throws IOException, IOException {
 

@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -36,8 +37,6 @@ public class PropertyController {
             return "add-property";
         }
 
-        property.setInsertDate(LocalDate.now());
-        System.out.println("Property before save = " + property);
 
         property.setInsertDate(LocalDate.now());
 
@@ -63,9 +62,42 @@ public class PropertyController {
 
 
     @GetMapping("/list")
-    public String propertyList(Model model) {model.addAttribute("properties",
-            propertyService.getAllProperties()
-        );
+    public String propertyList(
+
+            @RequestParam(required = false) String keyword,
+
+            @RequestParam(required = false) String propertyType,
+
+            @RequestParam(required = false) String listingType,
+
+            @RequestParam(required = false) String status,
+
+            @RequestParam(required = false) Double minPrice,
+
+            @RequestParam(required = false) Double maxPrice,
+
+            Model model) {
+
+
+        List<Property> properties =
+                propertyService.searchAndFilterProperties(
+                        keyword,
+                        propertyType,
+                        listingType,
+                        status,
+                        minPrice,
+                        maxPrice
+                );
+
+
+        model.addAttribute("properties", properties);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("propertyType", propertyType);
+        model.addAttribute("listingType", listingType);
+        model.addAttribute("status", status);
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("maxPrice", maxPrice);
+
 
         return "property-list";
     }
@@ -114,11 +146,15 @@ public class PropertyController {
             return "edit-property";
         }
 
+        Property existingProperty=propertyService.getPropertyById(property.getId());
+
         if (!image.isEmpty()) {
 
             String fileName = propertyService.saveImage(image);
 
             property.setImagePath(fileName);
+        }else {
+            property.setImagePath(existingProperty.getImagePath());
         }
 
         propertyService.updateProperty(property);

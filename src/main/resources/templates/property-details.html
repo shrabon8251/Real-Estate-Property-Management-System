@@ -19,7 +19,8 @@
     <h2 th:text="${property.title}">
         Property Title
     </h2>
-    <img th:if="${property.imagePath != null}"
+    <img class="property-image"
+            th:if="${property.imagePath != null}"
          th:src="@{'/uploads/' + ${property.imagePath}}"
          alt="Property Image">
     <p>

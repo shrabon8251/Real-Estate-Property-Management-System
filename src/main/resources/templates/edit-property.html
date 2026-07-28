@@ -119,27 +119,25 @@
 
     <span th:errors="*{status}" style="color: red"></span>
 
-    <br><br>
 
 
-    <label>Expected Date</label>
-    <input type="date" th:field="*{expectedDate}">
 
-    <span th:errors="*{expectedDate}"
-          style="color: red">
-    </span>
+
 
     <br><br>
 
 
     <label>Sold/Rented Date</label>
-    <input type="date" th:field="*{soldOrRentedDate}">
+    <input type="date" th:field="*{soldOrRentedDate}"
+           placeholder="Select Date" cl>
 
     <br><br>
 
 
     <label>Expected Date:</label>
-    <input type="date" th:field="*{expectedDate}">
+    <input type="text"
+           th:field="*{expectedDate}"
+           placeholder="Select Date" class="date-picker">
 
     <br><br>
 
@@ -148,9 +146,11 @@
     <label>Property Image:</label>
 
     <div th:if="${property.imagePath != null}">
-        <img th:src="@{'/uploads/' + ${property.imagePath}}"
-             alt="Current Property Image"
-             width="200">
+        <img class="property-image"
+                th:src="@{'/uploads/' + ${property.imagePath}}"
+             alt="Current Property Image">
+<!--             width="200">-->
+
     </div>
 
     <br>
@@ -178,4 +178,4 @@
 
 </body>
 </html>
-```
+

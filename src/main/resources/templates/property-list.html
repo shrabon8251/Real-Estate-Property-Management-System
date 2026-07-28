@@ -1,11 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <title>Property List</title>
 
+
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
+
 </head>
 
 <body>
@@ -20,18 +24,139 @@
 
 <br><br>
 
+<!-- Search and Filter Form -->
+
+<form th:action="@{/property/list}"
+      method="get"
+      class="filter-bar">
+
+
+    <!-- Search -->
+    <input type="text"
+           name="keyword"
+           placeholder="Search property..."
+           th:value="${keyword}">
+
+
+    <!-- Property Type -->
+    <select name="propertyType">
+
+        <option value="">Property Type</option>
+
+        <option value="Apartment"
+                th:selected="${propertyType == 'Apartment'}">
+            Apartment
+        </option>
+
+        <option value="House"
+                th:selected="${propertyType == 'House'}">
+            House
+        </option>
+
+        <option value="Villa"
+                th:selected="${propertyType == 'Villa'}">
+            Villa
+        </option>
+
+        <option value="Office"
+                th:selected="${propertyType == 'Office'}">
+            Office
+        </option>
+
+        <option value="Shop"
+                th:selected="${propertyType == 'Shop'}">
+            Shop
+        </option>
+
+        <option value="Land"
+                th:selected="${propertyType == 'Land'}">
+            Land
+        </option>
+
+    </select>
+
+
+    <!-- Listing Type -->
+    <select name="listingType">
+
+        <option value="">Listing Type</option>
+
+        <option value="forSell"
+                th:selected="${listingType == 'forSell'}">
+            For Sale
+        </option>
+
+        <option value="forRent"
+                th:selected="${listingType == 'forRent'}">
+            For Rent
+        </option>
+
+    </select>
+
+
+    <!-- Status -->
+    <select name="status">
+
+        <option value="">Status</option>
+
+        <option value="Available"
+                th:selected="${status == 'Available'}">
+            Available
+        </option>
+
+        <option value="Sold"
+                th:selected="${status == 'Sold'}">
+            Sold
+        </option>
+
+        <option value="Rented"
+                th:selected="${status == 'Rented'}">
+            Rented
+        </option>
+
+    </select>
+
+
+    <!-- Minimum Price -->
+    <input type="number"
+           name="minPrice"
+           placeholder="Min Price"
+           th:value="${minPrice}">
+
+
+    <!-- Maximum Price -->
+    <input type="number"
+           name="maxPrice"
+           placeholder="Max Price"
+           th:value="${maxPrice}">
+
+
+    <!-- Filter Button -->
+    <button type="submit" class="filter-button">
+        Filter
+    </button>
+
+
+</form>
 
 <!-- Property List -->
+
 <div class="property-container">
+
 
     <!-- Single Property Card -->
     <div class="property-card"
          th:each="property : ${properties}"
          th:onclick="|window.location.href='@{/property/details/{id}(id=${property.id})}'|">
+
+
+        <!-- Property ID -->
         <p>
             <strong>Property ID:</strong>
             <span th:text="${property.id}"></span>
         </p>
+
+
         <!-- Property Image -->
         <div class="property-image">
 
@@ -50,7 +175,6 @@
 
         <!-- Property Information -->
         <div class="property-info">
-
 
             <h2 th:text="${property.title}"></h2>
 
@@ -83,24 +207,26 @@
 
     </div>
 
+
 </div>
 
-
 <!-- No Property Found -->
+
 <div th:if="${#lists.isEmpty(properties)}">
 
+    ```
     <h2>No Properties Available</h2>
 
     <p>
-        There are currently no properties in the system.
+        There are currently no properties matching your search or filter.
     </p>
 
     <a th:href="@{/property/add}">
         Add Your First Property
     </a>
 
-</div>
 
+</div>
 
 </body>
 </html>
